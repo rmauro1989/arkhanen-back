@@ -3,11 +3,10 @@ import { Book } from "./src/entities/book.entity";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: process.env.PGHOST,
-  port: Number(process.env.PGPORT),
-  username: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  database: process.env.PGDATABASE,
+  url: process.env.DATABASE_URL,
   entities: [Book],
-  synchronize: true, // SOLO en desarrollo
+  synchronize: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
