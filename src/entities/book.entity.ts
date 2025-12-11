@@ -1,22 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+// src/entities/book.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity("books")
+@Entity({ name: "books" })
 export class Book {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column()
+  // Evita errores en registros existentes con NULL
+  @Column({ type: "text", nullable: false, default: "Untitled Book" })
   title!: string;
 
-  @Column()
-  author!: string;
+  @Column({ type: "text", nullable: true })
+  author?: string;
 
-  @Column("decimal")
-  price!: number;
+  @Column({ type: "text", nullable: true })
+  description?: string;
 
-  @Column({ name: "cover_url" })
-  coverUrl!: string;
+  @Column({ type: "decimal", nullable: true })
+  price?: number;
 
-  @Column("text")
-  description!: string;
+  @Column({ type: "text", nullable: true })
+  coverUrl?: string;
+
+  @Column({ type: "text", nullable: true })
+  pdfUrl?: string;
 }
