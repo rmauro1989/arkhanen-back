@@ -3,20 +3,20 @@ import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 @Entity("books")
 export class Book {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column()
-  title: string;
+  title!: string;
 
   @Column()
-  author: string;
+  author!: string;
 
   @Column("decimal")
-  price: number;
+  price!: number;
 
   @Column({ name: "cover_url" })
-  coverUrl: string;
+  coverUrl!: string;
 
   @Column("text")
-  description: string;
+  description!: string;
 }
