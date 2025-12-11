@@ -3,7 +3,7 @@ dotenv.config();
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "./data-source";
 
 async function bootstrap() {
   try {
