@@ -3,6 +3,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BooksModule } from './books/books.module';
 import { Book } from './entities/book.entity';
+import { UsersModule } from './users/users.module';
+import { MyBooksModule } from './my-books/my-books.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { Book } from './entities/book.entity';
         rejectUnauthorized: false,
       },
     }),
+    UsersModule,
+    MyBooksModule,
     BooksModule,
   ],
   controllers: [],
