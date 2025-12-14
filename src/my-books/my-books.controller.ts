@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Param, UseGuards } from "@nestjs/common";
 import { MyBooksService } from "./my-books.service";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("my-books")
 export class MyBooksController {

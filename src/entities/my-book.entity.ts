@@ -11,17 +11,17 @@ import { Book } from "./book.entity";
 @Entity("my_books")
 export class MyBook {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @ManyToOne(() => User, { onDelete: "CASCADE" })
-  user: User;
+  user!: User;
 
   @ManyToOne(() => Book, { onDelete: "CASCADE" })
-  book: Book;
+  book!: Book;
 
   @CreateDateColumn()
-  purchasedAt: Date;
+  purchasedAt!: Date;
 
   @Column({ default: true })
-  isActive: boolean;
+  isActive!: boolean;
 }
