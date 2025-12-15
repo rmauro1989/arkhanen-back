@@ -11,7 +11,7 @@ import {
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { BooksService } from "./books.service";
 import { UploadPdfDto } from "./dto/upload-pdf.dto";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("books")
 export class BooksController {
