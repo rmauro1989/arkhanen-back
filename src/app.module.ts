@@ -5,6 +5,7 @@ import { BooksModule } from './books/books.module';
 import { Book } from './entities/book.entity';
 import { UsersModule } from './users/users.module';
 import { MyBooksModule } from './my-books/my-books.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MyBooksModule } from './my-books/my-books.module';
     UsersModule,
     MyBooksModule,
     BooksModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
