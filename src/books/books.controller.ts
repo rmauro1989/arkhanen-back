@@ -5,16 +5,19 @@ import {
   UploadedFiles,
   UseInterceptors,
   Body,
-  Get
+  Get,
+  UseGuards
 } from "@nestjs/common";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { BooksService } from "./books.service";
 import { UploadPdfDto } from "./dto/upload-pdf.dto";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 
 @Controller("books")
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post("/upload")
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -35,6 +38,7 @@ export class BooksController {
     return this.booksService.uploadBook(pdf, cover, metadata);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getAllBooks() {
     return this.booksService.getBooksWithCover();
