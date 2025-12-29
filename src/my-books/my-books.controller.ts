@@ -1,6 +1,9 @@
-import { Controller, Get, Post, Param, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Param, UseGuards, Body } from "@nestjs/common";
 import { MyBooksService } from "./my-books.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { User } from "src/entities/user.entity";
+import { CurrentUser } from "src/auth/current-user.decorator";
+import { AddMyBookDto } from "./dto/add-my-book-dto";
 
 @Controller("my-books")
 export class MyBooksController {
@@ -10,5 +13,14 @@ export class MyBooksController {
   @Get(":userId")
   getUserBooks(@Param("userId") userId: string) {
     return this.myBooksService.getUserBooks(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post("add")
+  async addBookToUser(
+    @CurrentUser() user: User,
+    @Body() dto: AddMyBookDto,
+  ) {
+    return this.myBooksService.addBookToUser(user, dto.bookId);
   }
 }
