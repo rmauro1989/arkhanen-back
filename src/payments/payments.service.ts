@@ -47,7 +47,8 @@ export class PaymentsService {
 
     return {
       approveUrl: approveLink.href,
-      orderId: localOrderId,
+      paypalOrderId: order.id,
+      localOrderId,
     };
   }
 
