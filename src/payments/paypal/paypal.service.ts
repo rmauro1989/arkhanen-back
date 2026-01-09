@@ -80,7 +80,12 @@ export class PaypalService {
   }
 
   async captureOrder(orderId: string) {
+
+    console.log('orderId', orderId);
+    
     const token = await this.getAccessToken();
+
+    console.log('token', token);
 
     const response = await fetch(
       `${this.baseUrl}/v2/checkout/orders/${orderId}/capture`,
@@ -92,8 +97,12 @@ export class PaypalService {
         },
       },
     );
-
+    console.log('response', response);
+    
     const data = await response.json();
+
+    console.log('data-captue order--->', data);
+    
 
     if (!response.ok) {
       console.error('PayPal capture error:', data);
