@@ -57,11 +57,12 @@ export class PaypalService {
             },
           ],
           application_context: {
-            return_url:
-              'https://arkhanen-back-production.up.railway.app/paypal/return',
-            cancel_url:
-              'https://arkhanen-back-production.up.railway.app/paypal/cancel',
-          },
+            return_url: 'https://arkhanen-back-production.up.railway.app/paypal/return',
+            cancel_url: 'https://arkhanen-back-production.up.railway.app/paypal/cancel',
+            user_action: 'PAY_NOW',       // fuerza a PayPal a mostrar “Pagar ahora”
+            landing_page: 'LOGIN',        // fuerza login page
+          }
+
         }),
       },
     );
@@ -73,7 +74,8 @@ export class PaypalService {
         'Error creating PayPal order',
       );
     }
-
+    console.log('data----->', data);
+    
     return data;
   }
 
