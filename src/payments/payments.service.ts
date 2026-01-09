@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Book } from "../entities/book.entity";
 import { In, Repository } from "typeorm";
 import { User } from "../entities/user.entity";
+import * as crypto from 'crypto';
 
 @Injectable()
 export class PaymentsService {
@@ -35,9 +36,6 @@ export class PaymentsService {
 
     const localOrderId = crypto.randomUUID();
 
-    // 🧠 aquí normalmente guardarías en DB:
-    // orderId | userId | bookIds | status = PENDING
-
     const order = await this.paypalService.createOrder(
       total.toFixed(2),
       localOrderId,
@@ -52,10 +50,6 @@ export class PaymentsService {
       orderId: localOrderId,
     };
   }
-
-
-
-
 
   async captureOrder(
     user: User,
