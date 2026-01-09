@@ -66,6 +66,8 @@ export class PaymentsService {
     }
 
     for (const bookId of bookIds) {
+      console.log('bookId-loop', bookId);
+      
       await this.myBooksService.addBookToUser(user, bookId);
     }
 

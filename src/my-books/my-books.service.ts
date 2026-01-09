@@ -16,9 +16,15 @@ export class MyBooksService {
   ) {}
 
   async addBookToUser(user: User, bookId: string) {
+    console.log('addBookToUser- user', user);
+    console.log('addBookToUser- bookid', bookId);
+    
     const book = await this.booksRepo.findOne({
       where: { id: bookId },
     });
+
+    console.log('boooooook', book);
+    
 
     if (!book) {
       throw new NotFoundException('Book not found');
@@ -32,9 +38,14 @@ export class MyBooksService {
       relations: ['user', 'book'],
     });
 
+    console.log('exists1111111111', exists);
+    
+
     if (exists) return exists;
 
     const myBook = this.myBooksRepo.create({ user, book });
+    console.log('myBooksRepo.create', myBook);
+    
     return this.myBooksRepo.save(myBook);
   }
 
