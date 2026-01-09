@@ -96,6 +96,7 @@ export class PaypalService {
     const data = await response.json();
 
     if (!response.ok) {
+      console.error('PayPal capture error:', data);
       throw new InternalServerErrorException(
         'Error capturing PayPal order',
       );
