@@ -6,6 +6,7 @@ import { Book } from "../entities/book.entity";
 import { In, Repository } from "typeorm";
 import { User } from "../entities/user.entity";
 import * as crypto from 'crypto';
+import { MyBook } from "src/entities/my-book.entity";
 
 @Injectable()
 export class PaymentsService {
@@ -55,7 +56,7 @@ export class PaymentsService {
   async captureOrder(
     user: User,
     orderId: string,
-    bookId: string,
+    bookIds: string[],
   ) {
     const result = await this.paypalService.captureOrder(orderId);
 
@@ -63,7 +64,13 @@ export class PaymentsService {
       throw new BadRequestException('Payment not completed');
     }
 
-    // 🔥 SOLO AQUÍ se agrega el libro
-    return this.myBooksService.addBookToUser(user, bookId);
+    const addedBooks: MyBook[] = [];
+    for (const bookId of bookIds) {
+      const book = await this.myBooksService.addBookToUser(user, bookId);
+      addedBooks.push(book);
+    }
+
+    return { success: true, booksAdded: addedBooks.length };
   }
+
 }
