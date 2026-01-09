@@ -8,6 +8,7 @@ import { MyBooksModule } from './my-books/my-books.module';
 import { AuthModule } from './auth/auth.module';
 import { MyBook } from './entities/my-book.entity';
 import { User } from './entities/user.entity';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { User } from './entities/user.entity';
     MyBooksModule,
     BooksModule,
     AuthModule,
+    PaymentsModule,
   ],
   controllers: [],
   providers: [],

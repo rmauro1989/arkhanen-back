@@ -47,3 +47,4 @@ export class PaypalService {
     return response.result;
   }
 }
+

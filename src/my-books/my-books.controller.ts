@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Param, UseGuards, Body } from "@nestjs/common";
 import { MyBooksService } from "./my-books.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { User } from "src/entities/user.entity";
-import { CurrentUser } from "src/auth/current-user.decorator";
+import { User } from "../entities/user.entity";
+import { CurrentUser } from "../auth/current-user.decorator";
 import { AddMyBookDto } from "./dto/add-my-book-dto";
 
 @Controller("my-books")

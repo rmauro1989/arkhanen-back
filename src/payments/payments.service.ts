@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PaypalService } from "./paypal/paypal.service";
-import { MyBooksService } from "src/my-books/my-books.service";
+import { MyBooksService } from "../my-books/my-books.service";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Book } from "src/entities/book.entity";
+import { Book } from "../entities/book.entity";
 import { In, Repository } from "typeorm";
-import { User } from "src/entities/user.entity";
+import { User } from "../entities/user.entity";
 
 @Injectable()
 export class PaymentsService {
@@ -26,7 +26,7 @@ export class PaymentsService {
     const order = await this.paypalService.createOrder(total?.toString() ?? '');
  
     const approveLink = order.links.find(
-      (l) => l.rel === 'approve',
+      (l: { rel: string; href: string }) => l.rel === 'approve',
     );
 
     return {
