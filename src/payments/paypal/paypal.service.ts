@@ -9,9 +9,6 @@ export class PaypalService {
       ? 'https://api-m.paypal.com'
       : 'https://api-m.sandbox.paypal.com';
 
-  // ============================
-  // 🔐 ACCESS TOKEN
-  // ============================
   private async getAccessToken(): Promise<string> {
     const auth = Buffer.from(
       `${this.clientId}:${this.clientSecret}`,
@@ -37,9 +34,6 @@ export class PaypalService {
     return data.access_token;
   }
 
-  // ============================
-  // 🧾 CREATE ORDER
-  // ============================
   async createOrder(total: string, localOrderId?: string) {
     const token = await this.getAccessToken();
 
@@ -63,8 +57,10 @@ export class PaypalService {
             },
           ],
           application_context: {
-            return_url: 'arkhanenbooks://paypal-return',
-            cancel_url: 'arkhanenbooks://paypal-cancel',
+            return_url:
+              'https://arkhanen-back-production.up.railway.app/paypal/return',
+            cancel_url:
+              'https://arkhanen-back-production.up.railway.app/paypal/cancel',
           },
         }),
       },
@@ -81,9 +77,6 @@ export class PaypalService {
     return data;
   }
 
-  // ============================
-  // 💰 CAPTURE ORDER
-  // ============================
   async captureOrder(orderId: string) {
     const token = await this.getAccessToken();
 

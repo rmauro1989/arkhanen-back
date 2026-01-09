@@ -5,6 +5,7 @@ import { PaymentsService } from "./payments.service";
 import { PaymentsController } from "./payments.controller";
 import { PaypalModule } from "../payments/paypal/paypal.module";
 import { MyBooksModule } from "../my-books/my-books.module";
+import { PaypalRedirectController } from "./paypal-redirect.controller";
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { MyBooksModule } from "../my-books/my-books.module";
     TypeOrmModule.forFeature([Book])
   ],
   providers: [PaymentsService],
-  controllers: [PaymentsController],
+  controllers: [PaymentsController, PaypalRedirectController],
 })
 export class PaymentsModule {}
