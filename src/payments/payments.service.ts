@@ -17,17 +17,15 @@ export class PaymentsService {
 
   async createOrder(bookIds: string[], userId: string) {
     if (!Array.isArray(bookIds) || bookIds.length === 0) {
-      throw new BadRequestException("bookIds must be a non-empty array");
+      throw new BadRequestException('bookIds must be a non-empty array');
     }
 
     const books = await this.booksRepo.find({
-      where: {
-        id: In(bookIds),
-      },
+      where: { id: In(bookIds) },
     });
 
     if (books.length !== bookIds.length) {
-      throw new NotFoundException("One or more books not found");
+      throw new NotFoundException('One or more books not found');
     }
 
     const total = books.reduce(
@@ -35,25 +33,26 @@ export class PaymentsService {
       0,
     );
 
-    if (total <= 0) {
-      throw new BadRequestException("Invalid total amount");
-    }
+    const localOrderId = crypto.randomUUID();
 
-    const order = await this.paypalService.createOrder(total.toFixed(2));
+    // 🧠 aquí normalmente guardarías en DB:
+    // orderId | userId | bookIds | status = PENDING
 
-    const approveLink = order.links?.find(
-      (l: { rel: string; href: string }) => l.rel === 'approve',
+    const order = await this.paypalService.createOrder(
+      total.toFixed(2),
+      localOrderId,
     );
 
-    if (!approveLink) {
-      throw new BadRequestException("Paypal approval link not found");
-    }
+    const approveLink = order.links.find(
+      (l: any) => l.rel === 'approve',
+    );
 
     return {
-      orderId: order.id,
       approveUrl: approveLink.href,
+      orderId: localOrderId,
     };
   }
+
 
 
 

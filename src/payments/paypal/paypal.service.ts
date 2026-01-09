@@ -1,31 +1,21 @@
-import * as paypal from '@paypal/checkout-server-sdk';
 import { Injectable } from '@nestjs/common';
+import * as paypal from '@paypal/checkout-server-sdk';
+import { paypalClient } from './paypal.client';
 
 @Injectable()
 export class PaypalService {
-  private client: paypal.core.PayPalHttpClient;
+  private client = paypalClient();
 
-  constructor() {
-    const env =
-      process.env.PAYPAL_MODE === 'live'
-        ? new paypal.core.LiveEnvironment(
-            process.env.PAYPAL_CLIENT_ID!,
-            process.env.PAYPAL_CLIENT_SECRET!,
-          )
-        : new paypal.core.SandboxEnvironment(
-            process.env.PAYPAL_CLIENT_ID!,
-            process.env.PAYPAL_CLIENT_SECRET!,
-          );
-
-    this.client = new paypal.core.PayPalHttpClient(env);
-  }
-
-  async createOrder(amount: string) {
+  async createOrder(amount: string, localOrderId: string) {
     const request = new paypal.orders.OrdersCreateRequest();
     request.prefer('return=representation');
 
     request.requestBody({
       intent: 'CAPTURE',
+      application_context: {
+        return_url: `arkhanenbooks://paypal-return?orderId=${localOrderId}`,
+        cancel_url: `arkhanenbooks://paypal-cancel`,
+      },
       purchase_units: [
         {
           amount: {
@@ -43,8 +33,8 @@ export class PaypalService {
   async captureOrder(orderId: string) {
     const request = new paypal.orders.OrdersCaptureRequest(orderId);
     request.requestBody({});
+
     const response = await this.client.execute(request);
     return response.result;
   }
 }
-
