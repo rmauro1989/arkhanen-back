@@ -59,6 +59,8 @@ export class PaymentsService {
   ) {
     const result = await this.paypalService.captureOrder(paypalOrderId);
 
+    console.log('PayPal capture result status:', result.status);
+
     if (result.status !== 'COMPLETED') {
       throw new BadRequestException('Payment not completed');
     }
@@ -69,6 +71,7 @@ export class PaymentsService {
 
     return { success: true };
   }
+
 
 
 }

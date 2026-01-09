@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 export class PaypalService {
@@ -80,12 +80,10 @@ export class PaypalService {
   }
 
   async captureOrder(orderId: string) {
+    console.log('Capturing PayPal orderId:', orderId);
 
-    console.log('orderId', orderId);
-    
     const token = await this.getAccessToken();
-
-    console.log('token', token);
+    console.log('Access token:', token);
 
     const response = await fetch(
       `${this.baseUrl}/v2/checkout/orders/${orderId}/capture`,
@@ -97,20 +95,20 @@ export class PaypalService {
         },
       },
     );
-    console.log('response', response);
-    
+
     const data = await response.json();
+    console.log('PayPal capture response data:', data);
 
-    console.log('data-captue order--->', data);
-    
-
-    if (!response.ok) {
-      console.error('PayPal capture error:', data);
-      throw new InternalServerErrorException(
-        'Error capturing PayPal order',
+    // Si PayPal devuelve un error en el payload
+    if (data.name === 'INSTRUMENT_DECLINED' || data.status !== 'COMPLETED') {
+      console.error('PayPal capture failed:', data);
+      throw new BadRequestException(
+        data.message || 'Payment not completed',
       );
     }
 
+    // OK, captura completada
     return data;
   }
+
 }
