@@ -15,45 +15,31 @@ export class MyBooksService {
     private readonly booksRepo: Repository<Book>,
   ) {}
 
-  async addBookToUser(user: { userId: string; email: string }, bookId: string) {
+  async addBookToUser(user: User, bookId: string) {
     console.log('addBookToUser - user', user);
     console.log('addBookToUser - bookId', bookId);
 
-    // 1️⃣ Buscar el libro completo
-    const book = await this.booksRepo.findOne({
-      where: { id: bookId },
-    });
+    const book = await this.booksRepo.findOne({ where: { id: bookId } });
+    if (!book) throw new NotFoundException('Book not found');
 
-    if (!book) {
-      throw new NotFoundException('Book not found');
-    }
-
-    console.log('Book found:', book);
-
-    // 2️⃣ Revisar si ya existe la relación MyBook
     const exists = await this.myBooksRepo.findOne({
       where: {
-        user: { id: user.userId }, // 🔑 Usar userId como id
+        user: { id: user.id }, // 🔑 usar id de la entidad
         book: { id: book.id },
       },
       relations: ['user', 'book'],
     });
 
-    if (exists) {
-      console.log('Book already added to user:', exists);
-      return exists;
-    }
+    if (exists) return exists;
 
-    // 3️⃣ Crear y guardar la relación MyBook usando solo IDs
     const myBook = this.myBooksRepo.create({
-      user: { id: user.userId }, // TypeORM infiere relación por PK
+      user: { id: user.id }, // solo ID para la relación
       book: { id: book.id },
     });
 
-    console.log('Saving MyBook:', myBook);
-
     return this.myBooksRepo.save(myBook);
   }
+
 
 
 
