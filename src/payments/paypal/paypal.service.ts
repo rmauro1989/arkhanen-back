@@ -13,8 +13,10 @@ export class PaypalService {
     request.requestBody({
       intent: 'CAPTURE',
       application_context: {
-        return_url: `arkhanenbooks://paypal-return?orderId=${localOrderId}`,
-        cancel_url: `arkhanenbooks://paypal-cancel`,
+        application_context: {
+          return_url: 'arkhanenbooks://paypal-return',
+          cancel_url: 'arkhanenbooks://paypal-cancel',
+        },
       },
       purchase_units: [
         {
