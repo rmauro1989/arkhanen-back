@@ -34,7 +34,8 @@ export class PaymentsController {
     return this.paymentsService.captureOrder(
       user,
       dto.orderId,
-      dto.bookId,
+      dto.bookIds,
     );
   }
+
 }

@@ -1,9 +1,10 @@
-import { IsArray, IsUUID } from 'class-validator';
+import { IsArray, IsString, IsUUID } from 'class-validator';
 
 export class CapturePaymentDto {
-  orderId: string;
+  @IsString()
+  orderId!: string;
 
   @IsArray()
-  @IsUUID("all", { each: true })
-  bookIds: string[];
+  @IsUUID('4', { each: true })
+  bookIds!: string[];
 }
