@@ -24,7 +24,7 @@ export class MyBooksService {
 
     const exists = await this.myBooksRepo.findOne({
       where: {
-        user: { id: user.id }, // 🔑 usar id de la entidad
+        user: { id: user.id },
         book: { id: book.id },
       },
       relations: ['user', 'book'],
@@ -33,15 +33,12 @@ export class MyBooksService {
     if (exists) return exists;
 
     const myBook = this.myBooksRepo.create({
-      user: { id: user.id }, // solo ID para la relación
+      user: { id: user.id },
       book: { id: book.id },
     });
 
     return this.myBooksRepo.save(myBook);
   }
-
-
-
 
   async getUserBooks(userId: string) {
     return this.myBooksRepo.find({
