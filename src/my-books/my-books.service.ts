@@ -44,11 +44,8 @@ export class MyBooksService {
       user: managedUser,
       book
     });
-    console.log('myBook-- create--->', myBook);
 
     const responseMyBook = this.myBooksRepo.save(myBook);
-
-    console.log('responseMyBook----->', responseMyBook);
     
     return responseMyBook;
   }
