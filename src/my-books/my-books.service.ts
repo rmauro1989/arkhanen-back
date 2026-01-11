@@ -35,8 +35,8 @@ export class MyBooksService {
     if (exists) return exists;
 
     const myBook = this.myBooksRepo.create({
-      user: { id: user.id },
-      book: { id: book.id },
+      user,
+      book
     });
 
     return this.myBooksRepo.save(myBook);
