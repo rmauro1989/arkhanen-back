@@ -39,7 +39,14 @@ export class MyBooksService {
       book
     });
 
-    return this.myBooksRepo.save(myBook);
+    console.log('myBooksRepo.create ------->', myBook);
+    
+
+    const responseMyBook = this.myBooksRepo.save(myBook);
+
+    console.log('responseMyBook----->', responseMyBook);
+    
+    return responseMyBook;
   }
 
   async getUserBooks(userId: string) {
