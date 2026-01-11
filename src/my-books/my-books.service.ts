@@ -13,16 +13,22 @@ export class MyBooksService {
 
     @InjectRepository(Book)
     private readonly booksRepo: Repository<Book>,
+
+    @InjectRepository(User)
+    private readonly usersRepo: Repository<User>,
   ) {}
 
   async addBookToUser(user: User, bookId: string) {
-    console.log('addBookToUser - user', user);
-    console.log('addBookToUser - bookId', bookId);
-
     const book = await this.booksRepo.findOne({ where: { id: bookId } });
-    console.log('this.booksRepo.findOne------>', book);
-    
     if (!book) throw new NotFoundException('Book not found');
+
+    const managedUser = await this.usersRepo.findOne({
+      where: { id: user.id },
+    });
+
+    if (!managedUser) {
+      throw new NotFoundException('User not found');
+    }
 
     const exists = await this.myBooksRepo.findOne({
       where: {
@@ -35,12 +41,10 @@ export class MyBooksService {
     if (exists) return exists;
 
     const myBook = this.myBooksRepo.create({
-      user,
+      user: managedUser,
       book
     });
-
-    console.log('myBooksRepo.create ------->', myBook);
-    
+    console.log('myBook-- create--->', myBook);
 
     const responseMyBook = this.myBooksRepo.save(myBook);
 
