@@ -20,6 +20,8 @@ export class MyBooksService {
     console.log('addBookToUser - bookId', bookId);
 
     const book = await this.booksRepo.findOne({ where: { id: bookId } });
+    console.log('this.booksRepo.findOne------>', book);
+    
     if (!book) throw new NotFoundException('Book not found');
 
     const exists = await this.myBooksRepo.findOne({
