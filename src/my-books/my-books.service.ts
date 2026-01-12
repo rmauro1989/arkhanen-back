@@ -20,7 +20,17 @@ export class MyBooksService {
 
     @InjectRepository(User)
     private readonly usersRepo: Repository<User>,
-  ) {}
+  ) {
+    this.s3 = new S3Client({
+      endpoint: process.env.AWS_ENDPOINT_URL,
+      region: process.env.AWS_DEFAULT_REGION || "us-east-1",
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+      forcePathStyle: true,
+    });
+  }
 
   async addBookToUser(user: User, bookId: string) {
     const book = await this.booksRepo.findOne({ where: { id: bookId } });
