@@ -74,17 +74,13 @@ export class PaypalService {
         'Error creating PayPal order',
       );
     }
-    console.log('data----->', data);
-    
+
     return data;
   }
 
   async captureOrder(orderId: string) {
     console.log('Capturing PayPal orderId:', orderId);
-
     const token = await this.getAccessToken();
-    console.log('Access token:', token);
-
     const response = await fetch(
       `${this.baseUrl}/v2/checkout/orders/${orderId}/capture`,
       {

@@ -115,9 +115,9 @@ export class BooksService {
             this.s3,
             new GetObjectCommand({
               Bucket: process.env.AWS_S3_BUCKET_NAME,
-              Key: b.coverUrl, // solo la key
+              Key: b.coverUrl,
             }),
-            { expiresIn: 7200 } // 2 horas
+            { expiresIn: 7200 }
           );
         }
 
@@ -127,6 +127,7 @@ export class BooksService {
           author: b.author,
           price: b.price,
           coverUrl: presignedCoverUrl,
+          description: b.description,
         };
       })
     );
